@@ -1,7 +1,6 @@
 {
   "name": "helping-hand-server",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -15,6 +14,16 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
-    "mongodb": "^4.2.2"
-  }
+    "mongodb": "^4.2.2",
+    "stripe": "^8.195.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lutfor779/Helping-Hand-Server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lutfor779/Helping-Hand-Server/issues"
+  },
+  "homepage": "https://github.com/lutfor779/Helping-Hand-Server#readme",
+  "description": ""
 }
