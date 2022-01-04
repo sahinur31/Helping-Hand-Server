@@ -92,6 +92,13 @@ async function run() {
             console.log('Users found');
             res.send(users);
         })
+
+        //participant list
+        app.get('/list', async (req, res) => {
+            const cursor = usersCollection.find({});
+            const users = await cursor.toArray();
+            res.send(users);
+        })
         // get user api
         app.get('/users', async (req, res) => {
             const cursor = usersCollection.find({});
