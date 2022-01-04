@@ -61,7 +61,38 @@ async function run() {
                 res.json(result);
             }
         })
+        // joining in te event
+        app.put('/join/:email', async (req, res) => {
+            const title = req.body
+            const email = req.params.email
+            const user = await usersCollection.findOne({ email: email })
+            console.log('title', title, email, user)
+            if (!user.events) {
+                const filter = { email: email };
+                const options = { upsert: true };
+                const updateDoc = { $set: { events: title } };
+                const result = await usersCollection.updateOne(filter, updateDoc, options);
+                res.send(result)
+            } else {
+                const filter = { email: email };
+                const event = { events: [...user.events, ...title] }
+                const updateDoc = { $set: event };
+                const options = { upsert: true };
+                const result = await usersCollection.updateOne(filter, updateDoc, options);
+                res.send(result)
+            }
 
+        })
+
+        // chek already joined events
+        app.get('/joinedEvents/:email', async (req, res) => {
+            const email = req.params.email
+            const filter = { email: email }
+            console.log(email)
+            const users = await usersCollection.findOne(filter);
+            console.log('Users found');
+            res.send(users);
+        })
         // get user api
         app.get('/users', async (req, res) => {
             const cursor = usersCollection.find({});
@@ -197,6 +228,7 @@ async function run() {
             })
             res.json({ clientSecret: paymentIntent.client_secret })
         })
+
 
         console.log('database connected');
     }
