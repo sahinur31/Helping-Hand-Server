@@ -3,6 +3,7 @@ const ObjectId = require('mongodb').ObjectId;
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET)
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -27,7 +28,7 @@ async function run() {
         const donorsCollection = database.collection('donors');
         const feedbackCollection = database.collection('feedback');
         const causesCollection = database.collection('causes');
-
+        const reviewsCollection = database.collection('reviews');
 
         // save user api
         app.post('/users', async (req, res) => {
@@ -133,6 +134,15 @@ async function run() {
         })
 
 
+        // review adding
+        app.post('/review', async (req, res) => {
+            const data = req.body;
+            const result = await reviewsCollection.insertOne(data);
+
+            res.json(result);
+        })
+
+
         // save donor details api
         app.post('/donors', async (req, res) => {
             const data = req.body;
@@ -175,6 +185,17 @@ async function run() {
            const causes = await cursor.toArray();
            res.send(causes);
        });
+        //payment
+        app.post('/create-payment-intent', async (req, res) => {
+            const paymentInfo = req.body;
+            const amount = paymentInfo.amount * 100;
+            const paymentIntent = await stripe.paymentIntents.create({
+                currency: 'usd',
+                amount: amount,
+                payment_method_types: ['card']
+            })
+            res.json({ clientSecret: paymentIntent.client_secret })
+        })
 
         console.log('database connected');
     }
