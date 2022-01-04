@@ -158,33 +158,34 @@ async function run() {
             console.log('events generated');
             res.send(events);
         })
-        
-         // add feedback api
-         app.post('/feedback', async (req, res) => {
+
+        // add feedback api
+        app.post('/feedback', async (req, res) => {
             const data = req.body;
             const result = await feedbackCollection.insertOne(data);
             console.log('feedback added');
             res.json(result);
         });
-          // GET API for show feedback
+
+        // GET API for show feedback
         app.get("/feedback", async (req, res) => {
             const cursor = feedbackCollection.find({});
             const feedback = await cursor.toArray();
             res.send(feedback);
         });
-         // add causes api
+        // add causes api
         app.post('/causes', async (req, res) => {
-           const data = req.body;
-           const result = await causesCollection.insertOne(data);
-           console.log('causes added');
-           res.json(result);
-       })
-         // GET API for show causes
-       app.get("/causes", async (req, res) => {
-           const cursor = causesCollection.find({});
-           const causes = await cursor.toArray();
-           res.send(causes);
-       });
+            const data = req.body;
+            const result = await causesCollection.insertOne(data);
+            console.log('causes added');
+            res.json(result);
+        })
+        // GET API for show causes
+        app.get("/causes", async (req, res) => {
+            const cursor = causesCollection.find({});
+            const causes = await cursor.toArray();
+            res.send(causes);
+        });
         //payment
         app.post('/create-payment-intent', async (req, res) => {
             const paymentInfo = req.body;
