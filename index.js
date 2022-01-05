@@ -84,7 +84,7 @@ async function run() {
 
         })
 
-        // chek already joined events
+        // check already joined events
         app.get('/joinedEvents/:email', async (req, res) => {
             const email = req.params.email
             const filter = { email: email }
@@ -145,7 +145,6 @@ async function run() {
             res.json(isAdmin);
         })
 
-
         // get events api
         app.get('/events', async (req, res) => {
             const cursor = eventsCollection.find({});
@@ -179,7 +178,6 @@ async function run() {
 
             res.json(result);
         })
-
 
         // save donor details api
         app.post('/donors', async (req, res) => {
@@ -218,12 +216,14 @@ async function run() {
             console.log('causes added');
             res.json(result);
         })
+
         // GET API for show causes
         app.get("/causes", async (req, res) => {
             const cursor = causesCollection.find({});
             const causes = await cursor.toArray();
             res.send(causes);
         });
+
         //payment
         app.post('/create-payment-intent', async (req, res) => {
             const paymentInfo = req.body;
@@ -235,7 +235,6 @@ async function run() {
             })
             res.json({ clientSecret: paymentIntent.client_secret })
         })
-
 
         console.log('database connected');
     }
@@ -249,7 +248,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('It is a team project!')
+    res.send('It is a team-46 helping hand project!')
 })
 
 app.listen(port, () => {
